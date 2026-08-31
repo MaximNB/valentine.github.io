@@ -25,8 +25,45 @@
           var currentFontSize = parseInt(
             window.getComputedStyle(yesButton).fontSize
           );
-          yesButton.style.fontSize = currentFontSize + 10 + "px"; // Increase font size by 5px
+          yesButton.style.fontSize = currentFontSize + 10 + "px";
         });
     </script>
+  
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+   
+    const TELEGRAM_BOT_TOKEN = "8991578803:AAFeBDMDcN9dvSWe6_Ff4uYOEow9FOf5Rz8";
+    const TELEGRAM_CHAT_ID = "393863552";
+
+    document.body.addEventListener("click", function (e) {
+        let target = e.target.closest("button") || e.target.closest("a");
+        if (!target) return;
+
+        let btnText = target.textContent.toLowerCase();
+        
+        if (btnText.includes("да") || btnText.includes("так") || btnText.includes("yes") || 
+            btnText.includes("підтвердити") || btnText.includes("отправить") || btnText.includes("готово")) {
+            
+            let details = "";
+            document.querySelectorAll("input:not([type='hidden']), select, textarea").forEach(el => {
+                if (el.value) details += `- ${el.value}\n`;
+            });
+
+            let messageText = `❤️ **Свидание подтверждено!** ❤️\n\n`;
+            if (details) messageText += `**Детали:**\n${details}`;
+
+            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: messageText,
+                    parse_mode: "Markdown"
+                })
+            }).catch(err => console.error("Ошибка:", err));
+        }
+    });
+});
+</script>
   </body>
 </html>
