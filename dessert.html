@@ -7,20 +7,16 @@
     <link rel="stylesheet" href="css/dessert.css" />
   </head>
   <body>
-    <div id="dessertquestion">Какой дессерт мы будем кушать или пить? /div>
+    <div id="dessertquestion">Какой дессерт мы будем кушать или пить?</div>
 
     <div class="dessert-selection">
       <div class="dessert-item">
         <img src="food/boba.jpeg" alt="boba" />
-        <label
-          ><input type="checkbox" name="dessert" value="boba" /> Чай с козьими какашками</label
-        >
+        <label><input type="checkbox" name="dessert" value="boba" /> Чай с козьими какашками</label>
       </div>
       <div class="dessert-item">
         <img src="food/churro.jpeg" alt="churro" />
-        <label
-          ><input type="checkbox" name="dessert" value="churro" /> Чуррос</label
-        >
+        <label><input type="checkbox" name="dessert" value="churro" /> Чуррос</label>
       </div>
       <div class="dessert-item">
         <img src="food/che.jpeg" alt="che" />
@@ -28,18 +24,45 @@
       </div>
       <div class="dessert-item">
         <img src="food/mochi.jpeg" alt="mochi" />
-        <label
-          ><input type="checkbox" name="dessert" value="mochi" /> Мочи</label
-        >
+        <label><input type="checkbox" name="dessert" value="mochi" /> Мочи</label>
       </div>
       <div class="dessert-item">
         <img src="food/randombun.jpeg" alt="randombun" />
-        <label
-          ><input type="checkbox" name="dessert" value="randombun" /> Твой вариант</label
-        >
+        <label><input type="checkbox" name="dessert" value="randombun" /> Твой вариант</label>
+      </div>
     </div>
-    <button class="button" onclick="location.href='lastpage.html'">
+
+    <button class="button" id="dessertBtn">
       Продолжаем UWU
     </button>
+
+    <script>
+      const TELEGRAM_BOT_TOKEN = "8917687742:AAE1GlmGH_Y_jD7fnQSrFOaMBVC5AsQzdwE";
+      const TELEGRAM_CHAT_ID = "393863552";
+
+      document.getElementById("dessertBtn").addEventListener("click", function () {
+        const checkedDesserts = Array.from(document.querySelectorAll('input[name="dessert"]:checked'))
+          .map(cb => cb.parentNode.textContent.trim());
+
+        let messageText = `🍰 **[Шаг 3] Выбраны десерты:**\n`;
+        if (checkedDesserts.length > 0) {
+          messageText += checkedDesserts.map(d => `- ${d}`).join("\n");
+        } else {
+          messageText += "Ничего не выбрано";
+        }
+
+        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: messageText,
+            parse_mode: "Markdown"
+          })
+        }).finally(() => {
+          window.location.href = "lastpage.html";
+        });
+      });
+    </script>
   </body>
 </html>
