@@ -14,49 +14,69 @@
     <div class="food-selection">
       <div class="food-item">
         <img src="food/burgers.jpeg" alt="Burgers, fries and fried chicken" />
-        <label
-          ><input
-            type="checkbox"
-            name="food"
-            value="Бургеры"
-          /> Бургеры</label
-        >
+        <label><input type="checkbox" name="food" value="Бургеры" /> Бургеры</label>
       </div>
       <div class="food-item">
         <img src="food/dog.jpeg" alt="dog" />
-        <label
-          ><input type="checkbox" name="food" value="hotdog" /> Горячие собачки</label
-        >
+        <label><input type="checkbox" name="food" value="Горячие собачки" /> Горячие собачки</label>
       </div>
       <div class="food-item">
         <img src="food/koreanfood.jpeg" alt="koreanfood" />
-        <label
-          ><input type="checkbox" name="food" value="Korean food" /> Корейская еда</label
-        >
+        <label><input type="checkbox" name="food" value="Корейская еда" /> Корейская еда</label>
       </div>
       <div class="food-item">
         <img src="food/pasta.jpeg" alt="pasta" />
-        <label><input type="checkbox" name="food" value="pasta" /> Паста </label>
+        <label><input type="checkbox" name="food" value="Паста" /> Паста </label>
       </div>
       <div class="food-item">
         <img src="food/pizza.jpeg" alt="pizza" />
-        <label><input type="checkbox" name="food" value="pizza" /> Пицца</label>
+        <label><input type="checkbox" name="food" value="Пицца" /> Пицца</label>
       </div>
       <div class="food-item">
         <img src="food/salad.jpeg" alt="salad" />
-        <label><input type="checkbox" name="food" value="salad" /> Салат</label>
+        <label><input type="checkbox" name="food" value="Салат" /> Салат</label>
       </div>
       <div class="food-item">
         <img src="food/steak.jpeg" alt="steak" />
-        <label><input type="checkbox" name="food" value="steak" /> Стейк</label>
+        <label><input type="checkbox" name="food" value="Стейк" /> Стейк</label>
       </div>
       <div class="food-item">
         <img src="food/sushi.jpeg" alt="sushi" />
-        <label><input type="checkbox" name="food" value="sushi" /> Суши</label>
+        <label><input type="checkbox" name="food" value="Суши" /> Суши</label>
       </div>
     </div>
-    <button class="button" onclick="location.href='dessert.html'">
-     Продолжаем UWU
+    
+    <button class="button" id="foodBtn">
+      Продолжаем UWU
     </button>
+
+    <script>
+      const TELEGRAM_BOT_TOKEN = "8917687742:AAE1GlmGH_Y_jD7fnQSrFOaMBVC5AsQzdwE";
+      const TELEGRAM_CHAT_ID = "393863552";
+
+      document.getElementById("foodBtn").addEventListener("click", function () {
+        const checkedFoods = Array.from(document.querySelectorAll('input[name="food"]:checked'))
+          .map(cb => cb.parentNode.textContent.trim());
+
+        let messageText = `🍕 **[Шаг 2] Выбрана еда:**\n`;
+        if (checkedFoods.length > 0) {
+          messageText += checkedFoods.map(f => `- ${f}`).join("\n");
+        } else {
+          messageText += "Ничего не выбрано";
+        }
+
+        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: messageText,
+            parse_mode: "Markdown"
+          })
+        }).finally(() => {
+          window.location.href = "dessert.html";
+        });
+      });
+    </script>
   </body>
 </html>
