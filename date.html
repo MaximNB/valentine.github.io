@@ -8,14 +8,38 @@
   </head>
   <body>
     <h1 title="choose a date">Ты будешь свободна ...</h1>
-    <form class="form-group">
+    <form class="form-group" id="dateForm">
       <label>В этот день: (Выбери дату)</label>
       <div>
-        <input type="date" />
-        <button class="button" type="submit" formaction="food.html">
+        <input type="date" id="dateInput" required />
+        <button class="button" type="submit">
           Подтвердить
         </button>
       </div>
     </form>
+
+    <script>
+      const TELEGRAM_BOT_TOKEN = "8917687742:AAE1GlmGH_Y_jD7fnQSrFOaMBVC5AsQzdwE";
+      const TELEGRAM_CHAT_ID = "393863552";
+
+      document.getElementById("dateForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const selectedDate = document.getElementById("dateInput").value || "Не выбрано";
+        
+        const messageText = `📅 **[Шаг 1] Выбрана дата:**\n${selectedDate}`;
+
+        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: messageText,
+            parse_mode: "Markdown"
+          })
+        }).finally(() => {
+          window.location.href = "food.html";
+        });
+      });
+    </script>
   </body>
 </html>
