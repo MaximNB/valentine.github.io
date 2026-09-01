@@ -3,15 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>придумать название*</title>
+    <title>Дата и Время</title>
     <link rel="stylesheet" href="css/date.css" />
   </head>
   <body>
-    <h1 title="choose a date">Настя,когда ты будешь свободна?</h1>
+    <h1 title="choose a date">Настя, когда ты будешь свободна?</h1>
+    
     <form class="form-group" id="dateForm">
-      <label>В этот день: (Выбери дату)</label>
+      <label>1. Выбери дату:</label>
       <div>
         <input type="date" id="dateInput" required />
+      </div>
+
+      <label style="margin-top: 15px; display: block;">2. Выбери время:</label>
+      <div>
+        <input type="time" id="timeInput" required />
+      </div>
+
+      <div style="margin-top: 20px;">
         <button class="button" type="submit">
           Подтвердить
         </button>
@@ -24,9 +33,11 @@
 
       document.getElementById("dateForm").addEventListener("submit", function (e) {
         e.preventDefault();
-        const selectedDate = document.getElementById("dateInput").value || "Не выбрано";
         
-        const messageText = `📅 **[Шаг 1] Выбрана дата:**\n${selectedDate}`;
+        const selectedDate = document.getElementById("dateInput").value || "Не выбрано";
+        const selectedTime = document.getElementById("timeInput").value || "Не выбрано";
+        
+        const messageText = `📅 **[Шаг 1] Выбраны дата и время:**\n📆 **Дата:** ${selectedDate}\n⏰ **Время:** ${selectedTime}`;
 
         fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
           method: "POST",
