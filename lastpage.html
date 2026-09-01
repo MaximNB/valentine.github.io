@@ -3,11 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>До встречи!</title>
     <link rel="stylesheet" href="css/flower.css" />
+
+    <!-- Дополнительные стили для сдвига и оформления -->
+    <style>
+      #thankyou {
+        text-align: center;
+        font-size: 2.2rem;
+        color: #d81b60; /* Красивый насыщенный цвет для текста */
+        margin-top: 40px;
+        position: relative;
+        z-index: 100; /* Текст всегда будет выше любых элементов */
+        font-family: sans-serif;
+      }
+
+      /* Опускаем цветы ниже */
+      .flower {
+        margin-top: 100px !important;
+        transform: translateY(60px); /* Сдвиг вазы и цветов вниз */
+      }
+    </style>
   </head>
   <body>
     <div id="thankyou"><b>До встречи)</b></div>
+
     <div class="flower">
       <div class="f-wrapper">
         <div class="flower__line"></div>
